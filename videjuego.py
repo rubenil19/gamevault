@@ -60,3 +60,58 @@ class Videojuego:
         if valor not in self.PLATAFORMAS:
             raise ValueError("Plataforma no válida.")
         self.__plataforma = valor
+
+ @property
+    def genero(self):
+        """Género del juego."""
+        return self.__genero
+
+    # setter del género: tiene que ser uno de GENEROS
+    @genero.setter
+    def genero(self, valor):
+        if valor not in self.GENEROS:
+            raise ValueError("Género no válido.")
+        self.__genero = valor
+
+    @property
+    def valoracion(self):
+        """Valoración personal, un entero entre 0 y 5."""
+        return self.__valoracion
+
+    # setter de la valoración: entero entre 0 y 5
+    @valoracion.setter
+    def valoracion(self, valor):
+        try:
+            valor = int(valor)
+        except (ValueError, TypeError):
+            # int("abc") da ValueError e int(None) da TypeError,
+            # los junto en un solo ValueError con un mensaje claro
+            raise ValueError("La valoración debe ser un número entero.")
+        if not 0 <= valor <= 5:
+            raise ValueError("La valoración debe estar entre 0 y 5.")
+        self.__valoracion = valor
+
+    @property
+    def estado(self):
+        """Estado de progreso: Pendiente, Jugando o Completado."""
+        return self.__estado
+
+    # setter del estado: tiene que ser uno de ESTADOS
+    @estado.setter
+    def estado(self, valor):
+        if valor not in self.ESTADOS:
+            raise ValueError("Estado no válido.")
+        self.__estado = valor
+
+    @property
+    def descripcion(self):
+        """Notas personales (máximo 240 caracteres)."""
+        return self.__descripcion
+
+    # setter de la descripción: máximo 240 caracteres
+    @descripcion.setter
+    def descripcion(self, valor):
+        valor = str(valor).strip()
+        if len(valor) > 240:
+            raise ValueError("La descripción no puede superar 240 caracteres.")
+        self.__descripcion = valor
