@@ -115,3 +115,69 @@ class Videojuego:
         if len(valor) > 240:
             raise ValueError("La descripción no puede superar 240 caracteres.")
         self.__descripcion = valor
+
+    @property
+    def portada(self):
+        """URL de la imagen de portada (puede estar vacía)."""
+        return self.__portada
+
+    # setter de la portada: vacía o una URL http/https
+    @portada.setter
+    def portada(self, valor):
+        valor = str(valor).strip()
+        if valor and not valor.startswith(("http://", "https://")):
+            raise ValueError("La portada debe ser una URL HTTP o HTTPS.")
+        self.__portada = valor
+
+    # ---------- Métodos ----------
+    def a_dict(self):
+        """Pasa el objeto a diccionario (la sesión solo guarda tipos simples)."""
+        return {
+            "id": self.__id,
+            "nombre": self.__nombre,
+            "plataforma": self.__plataforma,
+            "genero": self.__genero,
+            "valoracion": self.__valoracion,
+            "estado": self.__estado,
+            "descripcion": self.__descripcion,
+            "portada": self.__portada,
+        }
+
+    @classmethod
+    def desde_dict(cls, datos):
+        """Hace lo contrario que a_dict(). Lanza KeyError si falta algo
+        y ValueError si un valor no vale; lo gestiona quien la llama."""
+        return cls(
+            juego_id=datos["id"],
+            nombre=datos["nombre"],
+            plataforma=datos["plataforma"],
+            genero=datos["genero"],
+            valoracion=datos.get("valoracion", 0),
+            estado=datos.get("estado", "Pendiente"),
+            descripcion=datos.get("descripcion", ""),
+            portada=datos.get("portada", ""),
+        )
+
+    def __str__(self):
+        """Texto para depurar."""
+        return f"{self.__nombre} ({self.__plataforma}) - {self.__estado}"
+
+
+# Pruebas rápidas: solo se ejecutan con "python videojuego.py".
+# Si lo importa app.py no corren.
+if __name__ == "__main__":
+    print("MODO PRUEBA - videojuego.py")
+    juego = Videojuego("1", "Hollow Knight", "PC", "Aventura", valoracion=5)
+    print("Creado:", juego)
+
+    juego.estado = "Completado"  # setter
+    print("Estado tras el setter:", juego.estado)  # getter
+
+    try:
+        juego.valoracion = 9  # fuera de rango
+    except ValueError as error:
+        print("Error controlado:", error)
+
+    copia = Videojuego.desde_dict(juego.a_dict())
+    print("Reconstruido desde diccionario:", copia)
+    print("Pruebas completadas")
