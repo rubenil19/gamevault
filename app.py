@@ -104,3 +104,88 @@ def avisar(mensaje, categoria="success"):
     flash(mensaje, categoria)
 
 
+# ---------- Validación del formulario ----------
+
+def validar_formulario(form):
+    """Limpia y valida lo que llega por POST.
+
+    Devuelve (datos, errores). Si errores está vacía, los datos son buenos.
+    También compruebo los desplegables porque el navegador se puede manipular.
+    """
+    errores = []
+
+    # strip() quita los espacios de los extremos
+    nombre = form.get("nombre", "").strip()
+    plataforma = form.get("plataforma", "").strip()
+    genero = form.get("genero", "").strip()
+    estado = form.get("estado", "").strip()
+    valoracion_texto = form.get("valoracion", "0").strip()
+    descripcion = form.get("descripcion", "").strip()
+    portada = form.get("portada", "").strip()
+
+    if not nombre:
+        errores.append("El nombre del videojuego es obligatorio.")
+    elif len(nombre) > 70:
+        errores.append("El nombre no puede superar los 70 caracteres.")
+
+    # los valores de los select tienen que estar en las listas del modelo
+    if plataforma not in Videojuego.PLATAFORMAS:
+        errores.append("Selecciona una plataforma válida.")
+    if genero not in Videojuego.GENEROS:
+        errores.append("Selecciona un género válido.")
+    if estado not in Videojuego.ESTADOS:
+        errores.append("Selecciona un estado válido.")
+
+    # la valoración tiene que ser un entero de 0 a 5
+    try:
+        valoracion = int(valoracion_texto)
+    except ValueError:
+        valoracion = 0
+        errores.append("La valoración debe ser un número entero entre 0 y 5.")
+    else:
+        if not 0 <= valoracion <= 5:
+            errores.append("La valoración debe estar entre 0 y 5.")
+
+    # campos opcionales
+    if len(descripcion) > 240:
+        errores.append("La descripción no puede superar los 240 caracteres.")
+    if portada and not portada.startswith(("http://", "https://")):
+        errores.append("La URL de portada debe comenzar por http:// o https://.")
+
+    datos = {
+        "nombre": nombre,
+        "plataforma": plataforma,
+        "genero": genero,
+        "estado": estado,
+        "valoracion": valoracion,
+        "descripcion": descripcion,
+        "portada": portada,
+    }
+    return datos, errores
+
+
+def ordenar_juegos(juegos, criterio):
+    """Ordena según lo elegido en el desplegable (con match)."""
+    match criterio:
+        case "nombre":
+            return sorted(juegos, key=lambda juego: juego.nombre.lower())
+        case "valoracion":
+            return sorted(juegos, key=lambda juego: juego.valoracion, reverse=True)
+        case "estado":
+            return sorted(juegos, key=lambda juego: Videojuego.ESTADOS.index(juego.estado))
+        case _:
+            return juegos  # sin criterio, el orden en que se añadieron
+
+
+def mostrar_formulario(titulo, juego, accion, codigo=200):
+    """Pinta el formulario de añadir/editar. Con errores se usa el código 400."""
+    return render_template(
+        "formulario.html",
+        titulo=titulo,
+        juego=juego,
+        plataformas=Videojuego.PLATAFORMAS,
+        generos=Videojuego.GENEROS,
+        estados=Videojuego.ESTADOS,
+        accion=accion,
+    ), codigo
+
