@@ -1,0 +1,27 @@
+{# Plantilla base. Las demás páginas hacen {% extends "base.html" %} y rellenan title y content #}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10111b">
+  <title>{% block title %}GameVault{% endblock %} · GameVault</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {# Barra de arriba, igual en todas las páginas #}
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">G</span><span>Game<span class="accent">Vault</span><small> TU COLECCIÓN, TU UNIVERSO</small></span></a>
+    <nav><a href="{{ url_for('index') }}">Biblioteca</a><a class="nav-cta" href="{{ url_for('nuevo') }}">＋ Añadir juego</a></nav>
+  </header>
+  <main class="container">
+    {# Mensajes de flash(): success o error #}
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+      {% if mensajes %}<div class="flash-stack">{% for categoria, mensaje in mensajes %}<div class="flash {{ categoria }}" role="alert">{{ mensaje }}</div>{% endfor %}</div>{% endif %}
+    {% endwith %}
+    {# Aquí va el contenido de cada página #}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>GAMEVAULT <span>·</span> Proyecto Flask · U.T.2 Generación de documentos web</footer>
+</body>
+</html>

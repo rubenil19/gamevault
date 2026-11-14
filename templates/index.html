@@ -1,0 +1,77 @@
+{# Página principal. Desde app.py llegan: juegos (ya filtrados y ordenados), estadisticas,
+   plataformas, estados, plataformas_en_uso y los valores de los filtros #}
+{% extends "base.html" %}
+{% block title %}Mi biblioteca{% endblock %}
+{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">TU ESPACIO GAMER</p><h1>Tu biblioteca.<br><span class="accent">Tus próximas aventuras.</span></h1><p class="hero-copy">Organiza tu colección, sigue tu progreso y ten siempre a mano tu próximo juego.</p><a class="button primary" href="{{ url_for('nuevo') }}">＋ Añadir videojuego</a></div>
+  <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="controller">⌁</div><span class="spark spark-one">✦</span><span class="spark spark-two">✧</span></div>
+</section>
+
+{# Estadísticas (se calculan en index()) #}
+<section class="stats">
+  <article class="stat-card"><span class="stat-icon">▣</span><div><p>Total de juegos</p><strong>{{ estadisticas.total }}</strong></div></article>
+  <article class="stat-card"><span class="stat-icon purple">◉</span><div><p>Jugando ahora</p><strong>{{ estadisticas.jugando }}</strong></div></article>
+  <article class="stat-card"><span class="stat-icon green">✓</span><div><p>Completados</p><strong>{{ estadisticas.completados }}</strong></div></article>
+  <article class="stat-card"><span class="stat-icon orange">◷</span><div><p>Pendientes</p><strong>{{ estadisticas.pendientes }}</strong></div></article>
+</section>
+
+<section class="library-heading"><div><p class="eyebrow">TU COLECCIÓN PERSONAL</p>
+  <h2>Mi biblioteca <span class="count">{{ juegos|length }}</span>
+    {# plataformas distintas, sin repetir #}
+    {% if plataformas_en_uso %}<span class="count" title="{{ plataformas_en_uso|join(', ') }}">{{ plataformas_en_uso|length }} {{ 'plataforma' if plataformas_en_uso|length == 1 else 'plataformas' }}</span>{% endif %}
+  </h2></div></section>
+
+{# Búsqueda, filtros y orden. Va por GET para poder copiar la URL #}
+<form class="filters" method="GET" action="{{ url_for('index') }}">
+  <label class="searchbox"><span>⌕</span><input name="q" type="search" value="{{ busqueda }}" placeholder="Buscar un videojuego…"></label>
+  <select name="plataforma" aria-label="Filtrar por plataforma"><option value="">Todas las plataformas</option>{% for p in plataformas %}<option value="{{ p }}" {% if filtro_plataforma == p %}selected{% endif %}>{{ p }}</option>{% endfor %}</select>
+  <select name="estado" aria-label="Filtrar por estado"><option value="">Todos los estados</option>{% for e in estados %}<option value="{{ e }}" {% if filtro_estado == e %}selected{% endif %}>{{ e }}</option>{% endfor %}</select>
+  <select name="orden" aria-label="Ordenar por">
+    <option value="">Orden de añadido</option>
+    <option value="nombre" {% if orden == 'nombre' %}selected{% endif %}>Nombre (A-Z)</option>
+    <option value="valoracion" {% if orden == 'valoracion' %}selected{% endif %}>Mejor valorados</option>
+    <option value="estado" {% if orden == 'estado' %}selected{% endif %}>Estado</option>
+  </select>
+  <button class="button secondary" type="submit">Filtrar</button>
+  {% if busqueda or filtro_plataforma or filtro_estado or orden %}<a class="clear-filter" href="{{ url_for('index') }}">Limpiar</a>{% endif %}
+</form>
+
+{# for con else: el else sale cuando no hay juegos #}
+<section class="game-grid">
+  {% for juego in juegos %}
+  {# loop.index empieza en 1, lo uso como id de la tarjeta #}
+  <article class="game-card" id="juego-{{ loop.index }}">
+    <div class="cover {% if juego.portada %}has-image{% endif %}">
+      {% if juego.portada %}
+        {# si la portada no carga, se quita la imagen y se queda el degradado #}
+        <img class="cover-img" src="{{ juego.portada }}" alt="Portada de {{ juego.nombre }}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+      {% else %}
+        <div class="cover-symbol">{{ juego.nombre[0]|upper }}</div><span class="cover-word">{{ juego.genero }}</span>
+      {% endif %}
+      <span class="platform-tag">{{ juego.plataforma }}</span>
+      {# la clase cambia según el estado: status-pendiente, status-jugando o status-completado #}
+      <span class="status status-{{ juego.estado|lower }}">{{ juego.estado }}</span>
+    </div>
+    <div class="game-info">
+      <div class="game-title-row"><h3>{{ juego.nombre }}</h3>
+        {# estrellas es un filtro mío, está en app.py #}
+        <span class="rating" title="Valoración: {{ juego.valoracion }}/5">{{ juego.valoracion|estrellas }}</span></div>
+      <p class="genre">{{ juego.genero }}</p>
+      {% if juego.descripcion %}<p class="description">{{ juego.descripcion }}</p>{% endif %}
+      <div class="card-actions">
+        <a class="button small secondary" href="{{ url_for('editar', juego_id=juego.id) }}">✎ Editar</a>
+        {# Eliminar va por POST con confirmación, con un enlace GET se podría borrar sin querer #}
+        <form method="POST" action="{{ url_for('eliminar', juego_id=juego.id) }}" onsubmit="return confirm('¿Seguro que quieres eliminar este videojuego?');"><button class="button small danger" type="submit">Eliminar</button></form>
+      </div>
+    </div>
+  </article>
+  {% else %}
+  {# Sin juegos: distingo entre "sin resultados" (hay filtros) y biblioteca vacía #}
+  <div class="empty-state"><div class="empty-icon">▧</div>
+    <h3>{{ 'No hay resultados' if (busqueda or filtro_plataforma or filtro_estado) else 'Tu aventura empieza aquí' }}</h3>
+    <p>{% if busqueda or filtro_plataforma or filtro_estado %}Prueba a cambiar los filtros o añade otro juego.{% else %}Añade tu primer videojuego para empezar a construir tu biblioteca personal.{% endif %}</p>
+    <a class="button primary" href="{{ url_for('nuevo') }}">＋ Añadir videojuego</a></div>
+  {% endfor %}
+</section>
+{% endblock %}
