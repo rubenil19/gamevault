@@ -1,0 +1,437 @@
+/* ==========================================================================
+   1. Fuentes y variables
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #10111b;
+  --panel: #191a28;
+  --panel2: #202133;
+  --text: #f5f5fb;
+  --muted: #a0a2b8;
+  --line: #2b2d42;
+  --purple: #a78bfa;
+  --purple2: #7c5ce7;
+  --green: #5ee0ae;
+  --orange: #ffbd75;
+  --red: #ff7e8d;
+}
+
+
+/* ==========================================================================
+   2. Reset y base
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 70% -20%, #292144 0, transparent 38%), var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.accent {
+  color: var(--purple);
+}
+
+
+/* ==========================================================================
+   3. Cabecera (topbar, marca y navegación)
+   ========================================================================== */
+
+.topbar {
+  height: 82px;
+  padding: 0 max(5vw, 24px);
+  border-bottom: 1px solid #ffffff0d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #10111bd9;
+  backdrop-filter: blur(12px);
+}
+
+/* Marca */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 700 21px 'Space Grotesk', sans-serif;
+  letter-spacing: -.8px;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #b69cff, #7550dc);
+  color: #171321;
+  font-size: 23px;
+}
+
+.brand small {
+  display: block;
+  font: 600 9px 'DM Sans', sans-serif;
+  letter-spacing: 1.5px;
+  color: #85869e;
+  margin-top: 3px;
+}
+
+/* Navegación */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+nav a:hover,
+.back-link:hover {
+  color: var(--text);
+}
+
+.nav-cta {
+  background: #a78bfa1a;
+  border: 1px solid #a78bfa45;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #d8ccff;
+}
+
+
+/* ==========================================================================
+   4. Layout (contenedor)
+   ========================================================================== */
+
+.container {
+  width: min(1180px, 90%);
+  margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   5. Hero
+   ========================================================================== */
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 330px;
+  padding: 44px 0 30px;
+  overflow: hidden;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  font-weight: 700;
+  color: var(--purple);
+  margin: 0 0 12px;
+}
+
+.hero h1,
+.form-heading h1 {
+  font: 700 clamp(32px, 4vw, 48px)/1.13 'Space Grotesk', sans-serif;
+  letter-spacing: -1.7px;
+  margin: 0;
+}
+
+.hero-copy {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 17px 0 24px;
+  font-size: 14px;
+}
+
+/* Ilustración decorativa */
+.hero-art {
+  width: 300px;
+  height: 240px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.orbit {
+  position: absolute;
+  border: 1px solid #a78bfa30;
+  border-radius: 50%;
+  transform: rotate(-22deg);
+}
+
+.orbit-one {
+  width: 285px;
+  height: 130px;
+}
+
+.orbit-two {
+  width: 230px;
+  height: 195px;
+  transform: rotate(45deg);
+}
+
+.controller {
+  font-size: 115px;
+  color: #b9a2ff;
+  text-shadow: 0 0 50px #946aff80;
+  transform: rotate(-12deg);
+}
+
+.spark {
+  position: absolute;
+  color: #d8ccff;
+  font-size: 26px;
+}
+
+.spark-one {
+  top: 35px;
+  right: 42px;
+}
+
+.spark-two {
+  bottom: 35px;
+  left: 28px;
+}
+
+
+/* ==========================================================================
+   6. Botones
+   ========================================================================== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform .15s, background .15s;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.primary {
+  background: linear-gradient(135deg, #b6a0ff, #8c6af0);
+  color: #171321;
+  box-shadow: 0 7px 22px #8b6bea25;
+}
+
+.secondary {
+  background: #ffffff07;
+  border-color: var(--line);
+  color: #e2e2ee;
+}
+
+.secondary:hover {
+  background: #ffffff0d;
+}
+
+.danger {
+  background: #ff7e8d12;
+  border-color: #ff7e8d35;
+  color: #ff9ca8;
+}
+
+.small {
+  font-size: 11px;
+  padding: 8px 11px;
+  border-radius: 8px;
+}
+
+
+/* ==========================================================================
+   7. Estadísticas
+   ========================================================================== */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 13px 0 44px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  background: linear-gradient(135deg, #1c1d2c, #171824);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.stat-card p {
+  margin: 0 0 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.stat-card strong {
+  font: 700 25px 'Space Grotesk', sans-serif;
+}
+
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #a78bfa20;
+  color: var(--purple);
+  font-size: 22px;
+}
+
+.stat-icon.purple {
+  color: #c2a7ff;
+}
+
+.stat-icon.green {
+  background: #5ee0ae18;
+  color: var(--green);
+}
+
+.stat-icon.orange {
+  background: #ffbd7518;
+  color: var(--orange);
+}
+
+
+/* ==========================================================================
+   8. Biblioteca: cabecera, filtros y rejilla
+   ========================================================================== */
+
+/* Cabecera de la biblioteca */
+.library-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 17px;
+}
+
+.library-heading h2 {
+  font: 600 25px 'Space Grotesk', sans-serif;
+  letter-spacing: -.6px;
+  margin: 0;
+}
+
+.count {
+  font: 600 12px 'DM Sans', sans-serif;
+  color: var(--muted);
+  background: #ffffff0b;
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+  border-radius: 7px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+/* Filtros y buscador */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.searchbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 180px;
+  background: #171824;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 12px;
+  color: var(--muted);
+}
+
+.searchbox span {
+  font-size: 23px;
+}
+
+.searchbox input {
+  border: 0 !important;
+  background: transparent !important;
+  padding-left: 0 !important;
+}
+
+.filters select,
+.field select,
+.field input,
+.field textarea,
+.searchbox input {
+  background: #171824;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 11px 12px;
+  outline: none;
+}
+
+.filters select {
+  font-size: 12px;
+  max-width: 205px;
+}
+
+.filters input {
+  width: 100%;
+  min-width: 0;
+}
+
+.filters input:focus,
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.filters select:focus {
+  border-color: #a78bfa80;
+}
+
+.clear-filter {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Rejilla de juegos */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 55px;
+}
+
+/* El estado vacío ocupa todas las columnas de la cuadrícula */
+.game-grid .empty-state {
+  grid-column: 1/-1;
+  margin: 0;
+}
+
