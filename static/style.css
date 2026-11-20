@@ -435,3 +435,490 @@ nav a:hover,
   margin: 0;
 }
 
+
+/* ==========================================================================
+   9. Tarjetas de juego (portada, etiquetas, información)
+   ========================================================================== */
+
+.game-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, #1b1c2a, #171823);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+
+.game-card:hover {
+  transform: translateY(-3px);
+  border-color: #a78bfa50;
+}
+
+/* Portada */
+.cover {
+  height: 160px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 25% 20%, #5d3b91, #25203f 48%, #171824 100%);
+}
+
+.cover:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, #ffffff0d, transparent 50%),
+    repeating-linear-gradient(135deg, transparent 0 22px, #ffffff04 23px 24px);
+}
+
+.cover.has-image {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Portada con imagen (etiqueta img): ocupa toda la tarjeta y se oscurece hacia abajo */
+.cover-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover.has-image:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, #11121c);
+}
+
+.cover-symbol {
+  font: 700 70px 'Space Grotesk', sans-serif;
+  color: #ffffffbb;
+  text-shadow: 0 5px 30px #0008;
+}
+
+.cover-word {
+  position: absolute;
+  bottom: 15px;
+  left: 17px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff9c;
+}
+
+/* Etiquetas sobre la portada: plataforma y estado */
+.platform-tag,
+.status {
+  position: absolute;
+  top: 12px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.platform-tag {
+  left: 12px;
+  background: #11121bc9;
+  color: #e3ddff;
+  border: 1px solid #ffffff1a;
+}
+
+.status {
+  right: 12px;
+}
+
+.status-pendiente {
+  background: #ffbd7526;
+  color: #ffd09c;
+}
+
+.status-jugando {
+  background: #a78bfa30;
+  color: #d7c8ff;
+}
+
+.status-completado {
+  background: #5ee0ae24;
+  color: #8df0c8;
+}
+
+/* Información del juego */
+.game-info {
+  padding: 15px;
+}
+
+.game-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 8px;
+}
+
+.game-title-row h3 {
+  font: 600 16px 'Space Grotesk', sans-serif;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.rating {
+  white-space: nowrap;
+  color: #ffce7b;
+  font-size: 11px;
+}
+
+.genre {
+  color: var(--muted);
+  font-size: 11px;
+  margin: 8px 0;
+}
+
+.description {
+  color: #c3c4d3;
+  font-size: 12px;
+  line-height: 1.55;
+  min-height: 18px;
+}
+
+/* Acciones de la tarjeta */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px solid #ffffff0c;
+}
+
+.card-actions form {
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   10. Estado vacío
+   ========================================================================== */
+
+.empty-state {
+  text-align: center;
+  padding: 65px 20px 80px;
+  border: 1px dashed #41415a;
+  border-radius: 16px;
+  background: #ffffff03;
+  margin: 20px 0 50px;
+}
+
+.empty-icon {
+  font: 600 48px 'Space Grotesk', sans-serif;
+  color: var(--purple);
+  margin-bottom: 15px;
+}
+
+.empty-state h3,
+.empty-state h1 {
+  font: 600 23px 'Space Grotesk', sans-serif;
+  margin: 0 0 10px;
+}
+
+.empty-state p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 auto 22px;
+  max-width: 440px;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   11. Formulario
+   ========================================================================== */
+
+.form-page {
+  max-width: 760px;
+  margin: 35px auto 70px;
+}
+
+.back-link {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.form-heading {
+  margin: 28px 0 25px;
+}
+
+.form-heading p:last-child {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.game-form {
+  padding: 25px;
+  background: linear-gradient(150deg, #1c1d2c, #171823);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Campos */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field.full {
+  grid-column: 1/-1;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e3e3ef;
+}
+
+.optional,
+.field small {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  font-size: 13px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #676981;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+
+/* ==========================================================================
+   12. Mensajes flash
+   ========================================================================== */
+
+.flash-stack {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.flash {
+  padding: 12px 15px;
+  border-radius: 9px;
+  font-size: 12px;
+  border: 1px solid;
+}
+
+.flash.success {
+  background: #5ee0ae12;
+  border-color: #5ee0ae35;
+  color: #8df0c8;
+}
+
+.flash.error {
+  background: #ff7e8d12;
+  border-color: #ff7e8d35;
+  color: #ffadb6;
+}
+
+
+/* ==========================================================================
+   13. Pie de página
+   ========================================================================== */
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  color: #65677f;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  border-top: 1px solid #ffffff0a;
+}
+
+footer span {
+  color: var(--purple);
+  padding: 0 5px;
+}
+
+
+/* ==========================================================================
+   14. Responsive
+   ========================================================================== */
+
+/* Tablet: hasta 850px */
+@media (max-width: 850px) {
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-art {
+    width: 220px;
+    transform: scale(.85);
+    margin-right: -15px;
+  }
+
+  .filters select {
+    flex: 1;
+  }
+
+  .filters .button {
+    flex: 0 0 auto;
+  }
+}
+
+/* Móvil: hasta 600px */
+@media (max-width: 600px) {
+  /* Cabecera */
+  .topbar {
+    height: 70px;
+    padding: 0 5%;
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .brand-icon {
+    width: 33px;
+    height: 33px;
+  }
+
+  nav {
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  nav > a:first-child {
+    display: none;
+  }
+
+  .nav-cta {
+    padding: 9px 10px;
+  }
+
+  /* Layout y hero */
+  .container {
+    width: 90%;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 42px 0 30px;
+  }
+
+  .hero-art {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  /* Estadísticas */
+  .stats {
+    gap: 9px;
+    margin-bottom: 35px;
+  }
+
+  .stat-card {
+    padding: 13px 10px;
+    gap: 9px;
+  }
+
+  .stat-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+
+  .stat-card p {
+    font-size: 10px;
+  }
+
+  .stat-card strong {
+    font-size: 22px;
+  }
+
+  /* Rejilla y tarjetas */
+  .game-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .cover {
+    height: 180px;
+  }
+
+  /* Filtros */
+  .filters {
+    gap: 8px;
+  }
+
+  .searchbox {
+    flex-basis: 100%;
+  }
+
+  .filters select {
+    max-width: none;
+    min-width: 0;
+  }
+
+  .filters .button {
+    padding: 11px;
+  }
+
+  /* Formulario */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .field.full {
+    grid-column: auto;
+  }
+
+  .game-form {
+    padding: 17px;
+  }
+
+  .form-heading h1 {
+    font-size: 35px;
+  }
+
+  .form-actions .button {
+    flex: 1;
+  }
+}
